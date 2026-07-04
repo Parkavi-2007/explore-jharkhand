@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Destinations — Explore Jharkhand</title>
+<meta name="description" content="Browse eco and cultural destinations across Jharkhand — waterfalls, wildlife sanctuaries, temples and heritage sites.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231B2C20'/%3E%3Cpath d='M16 5c5 6 8 10 8 14a8 8 0 0 1-16 0c0-4 3-8 8-14z' fill='%23C98A2C'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1B2C20">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,500;1,600&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="logo">Explore <span>Jharkhand</span></a>
+  <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="destinations.html" class="active">Destinations</a></li>
+    <li><a href="map.html">Map</a></li>
+    <li><a href="planner.html">Trip Planner</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="favorites.html">Favorites <span data-fav-count style="font-size:11px; opacity:0.7;">(0)</span></a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="page-header">
+  <div class="page-header-inner">
+    <div class="page-header-text">
+      <span class="eyebrow">Destinations</span>
+      <h1>Where the forests still breathe</h1>
+      <p>Twelve places that capture Jharkhand at its best — cascading falls, protected wildlife, hill stations, and centuries of tribal and temple heritage.</p>
+    </div>
+    <div class="page-header-media">
+      <img src="images/tour3.jpeg" alt="Jharkhand landscape">
+    </div>
+  </div>
+  <div class="frieze"></div>
+</section>
+
+<section class="section" style="padding-top:56px;">
+  <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between; margin-bottom:48px;">
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      <button class="pill is-active" data-type="all" onclick="filterPlaces('all')">All</button>
+      <button class="pill" data-type="eco" onclick="filterPlaces('eco')">Eco Tourism</button>
+      <button class="pill" data-type="cultural" onclick="filterPlaces('cultural')">Cultural Tourism</button>
+    </div>
+    <input type="text" id="searchInput" class="field" style="max-width:260px; margin-bottom:0;" placeholder="Search destinations…" onkeyup="searchPlaces()">
+  </div>
+
+  <div class="grid" id="destinationsGrid"></div>
+</section>
+
+<footer class="site-footer">
+  <div class="frieze"></div>
+  <div class="footer-inner">
+    <div>
+      <h5>Explore Jharkhand</h5>
+      <p>A smart digital platform for eco and cultural tourism — built to help travellers discover Jharkhand's forests, falls and heritage.</p>
+    </div>
+    <div class="footer-col">
+      <span class="eyebrow">Navigate</span>
+      <ul>
+        <li><a href="destinations.html">Destinations</a></li>
+        <li><a href="map.html">Map</a></li>
+        <li><a href="planner.html">Trip Planner</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="favorites.html">Favorites</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <span class="eyebrow">Reach Us</span>
+      <ul>
+        <li>Ranchi, Jharkhand</li>
+        <li>tourism@jharkhand.com</li>
+        <li>+91 98765 43210</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Explore Jharkhand. All rights reserved.</div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function (err) {
+        console.log('Service worker registration failed:', err);
+      });
+    });
+  }
+</script>
+<script>
+  function renderDestinationsGrid() {
+    var grid = document.getElementById("destinationsGrid");
+    var html = "";
+    Object.keys(PLACES).forEach(function (key) {
+      var p = PLACES[key];
+      html += '<div class="place-card destination-card ' + p.category + '">' +
+        '<div class="thumb">' +
+          '<span class="place-tag ' + p.category + '">' + (p.category === "eco" ? "Eco" : "Cultural") + '</span>' +
+          renderFavoriteButton(key) +
+          '<img src="' + p.img + '" alt="' + p.name + '">' +
+        '</div>' +
+        '<div class="body">' +
+          '<h5>' + p.name + '</h5>' +
+          '<div style="margin-bottom:8px;">' + renderRatingBadge(key) + '</div>' +
+          '<p>' + p.summary + '</p>' +
+          '<a href="detail.html?place=' + key + '" class="link-arrow">View details →</a>' +
+        '</div></div>';
+    });
+    grid.innerHTML = html;
+  }
+  renderDestinationsGrid();
+
+  document.addEventListener("DOMContentLoaded", function(){
+    var countEls = document.querySelectorAll("[data-fav-count]");
+    countEls.forEach(function(el){ el.textContent = "(" + getFavorites().length + ")"; });
+  });
+</script>
+</body>
+</html>

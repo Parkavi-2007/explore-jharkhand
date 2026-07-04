@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Map — Explore Jharkhand</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231B2C20'/%3E%3Cpath d='M16 5c5 6 8 10 8 14a8 8 0 0 1-16 0c0-4 3-8 8-14z' fill='%23C98A2C'/%3E%3C/svg%3E">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1B2C20">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;1,500;1,600&family=Work+Sans:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html" class="logo">Explore <span>Jharkhand</span></a>
+  <button class="nav-toggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="destinations.html">Destinations</a></li>
+    <li><a href="map.html" class="active">Map</a></li>
+    <li><a href="planner.html">Trip Planner</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><a href="favorites.html">Favorites <span data-fav-count style="font-size:11px; opacity:0.7;">(0)</span></a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="page-header">
+  <div class="page-header-inner">
+    <div class="page-header-text">
+      <span class="eyebrow">Map</span>
+      <h1>All destinations, one map</h1>
+      <p>Every eco and cultural spot on Explore Jharkhand, plotted so you can plan by geography. Tap a pin for details.</p>
+    </div>
+    <div class="page-header-media">
+      <img src="images/tour7.jpeg" alt="Jharkhand landscape">
+    </div>
+  </div>
+  <div class="frieze"></div>
+</section>
+
+<section class="section" style="padding-top:56px;">
+  <div id="siteMap"></div>
+</section>
+
+<footer class="site-footer">
+  <div class="frieze"></div>
+  <div class="footer-inner">
+    <div>
+      <h5>Explore Jharkhand</h5>
+      <p>A smart digital platform for eco and cultural tourism — built to help travellers discover Jharkhand's forests, falls and heritage.</p>
+    </div>
+    <div class="footer-col">
+      <span class="eyebrow">Navigate</span>
+      <ul>
+        <li><a href="destinations.html">Destinations</a></li>
+        <li><a href="planner.html">Trip Planner</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <span class="eyebrow">Reach Us</span>
+      <ul>
+        <li>Ranchi, Jharkhand</li>
+        <li>tourism@jharkhand.com</li>
+        <li>+91 98765 43210</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Explore Jharkhand. All rights reserved.</div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function (err) {
+        console.log('Service worker registration failed:', err);
+      });
+    });
+  }
+</script>
+<script>
+  loadMapPage();
+  document.addEventListener("DOMContentLoaded", function(){
+    var countEls = document.querySelectorAll("[data-fav-count]");
+    countEls.forEach(function(el){ el.textContent = "(" + getFavorites().length + ")"; });
+  });
+</script>
+</body>
+</html>
